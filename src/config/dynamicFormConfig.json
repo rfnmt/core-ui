@@ -1,0 +1,111 @@
+{
+  "ticketing": {
+    "API_URL": "/ticketing",
+    "fields": [
+      {
+        "input_type": "checkbox",
+        "name": "is_active",
+        "label": "فعال",
+        "type_attribute": "checkbox"
+      },
+      {
+        "input_type": "input",
+        "name": "subject",
+        "label": "موضوع",
+        "type_attribute": "text",
+        "is_required": true
+      },
+      {
+        "input_type": "input",
+        "name": "email",
+        "label": "آدرس ایمیل",
+        "type_attribute": "email",
+        "is_required": true
+      },
+      {
+        "input_type": "textarea",
+        "name": "text",
+        "label": "متن",
+        "is_required": false
+      },
+      {
+        "input_type": "select",
+        "name": "creator",
+        "label": "ایجاد کننده",
+        "options_url": "/base/users",
+        "requeird_data": "username",
+        "is_required": false
+      },
+      {
+        "input_type": "select",
+        "name": "related_priority",
+        "label": "الویت",
+        "options_url": "/base/users",
+        "requeird_data": "",
+        "is_required": false
+      },
+      {
+        "input_type": "select",
+        "name": "related_ticket_category",
+        "label": "بخش مربوطه",
+        "options_url": "/ticketing/ticket-categories/",
+        "requeird_data": "title",
+        "is_required": false
+      },
+      {
+        "input_type": "select",
+        "name": "related_subscription",
+        "label": "اشتراک مربوطه",
+        "options_url": "/plan/subscription-service-assignment-fields",
+        "requeird_data": "",
+        "is_required": false
+      },
+      {
+        "input_type": "select",
+        "name": "related_ticket_status",
+        "label": "وضعیت تیکت مربوطه",
+        "options_url": "/ticketing/ticket-statuses",
+        "requeird_data": "title",
+        "is_required": false
+      },
+      {
+        "input_type": "select",
+        "name": "referred_to_ticket_category",
+        "label": "ارجاع شده به بخش تیکتینگ",
+        "options_url": "/ticketing/ticket-categories",
+        "requeird_data": "title",
+        "is_required": false
+      },
+      {
+        "input_type": "select",
+        "name": "referred_to_user",
+        "label": "ارجاع شده به کاربر",
+        "options_url": "/base/users/",
+        "requeird_data": "username",
+        "is_required": false
+      },
+      {
+        "input_type": "select",
+        "name": "related_ticket",
+        "label": "تیکت مربوطه",
+        "options_url": "/ticketing",
+        "requeird_data": "subject",
+        "is_required": true
+      }
+    ],
+    "form_fields": [
+      "is_active",
+      "subject",
+      "email",
+      "creator",
+      "related_priority",
+      "related_ticket_category",
+      "related_subscription",
+      "related_ticket_status",
+      "referred_to_ticket_category",
+      "referred_to_user"
+    ],
+    "list_fields": ["id", "creator", "is_active", "subject", "email"],
+    "message_fields": ["is_active", "text", "creator", "related_ticket"]
+  }
+}
