@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import {
   CCard,
   CCardHeader,
@@ -9,48 +9,40 @@ import {
   CFormGroup,
   CContainer,
   CButton,
-  CAlert,
 } from "@coreui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { postFormData } from "../dataManager/actions";
 
 // Components
 import Element from "./element";
-import TicketMessage from "./ticketMessage";
 
 // Form Config
 import config from "../config/dynamicFormConfig.json";
 
 // Form Component
 const Form = () => {
-  // const [showForm, setShowForm] = useState(false);
-  // const [showMessage, setShowMessage] = useState(false);
   const history = useHistory();
   const formData = useSelector((state) => state.formDataReducer);
-  const res = useSelector((state) => state.resData);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   if (URLs.indexOf(location) !== -1) {
-  //     setShowForm(true);
-  //   }
-  // }, []);
+  let { slug } = useParams();
+  console.log(slug);
 
-  useEffect(() => {
-    console.log(res);
-  }, [res]);
-
-  let URLs = Object.keys(config);
-
-  // Get the path without "/form" & "/"
-  let location = history.location.pathname
-    .replace("/form/", "")
-    .replace("/", "");
+  // Get the array of pathes without "/form" & "/"
+  let location = history.location.pathname.split("/");
+  let routes = location.filter((item) => item != false);
+  routes.shift();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(postFormData(formData, `/${location}/`));
-    history.push("/form/ticket-message");
+    const API_Urls = routes.map((route) => config[route].API_URL);
+    const requiredData = routes.map((route) => config[route].send_data);
+    dispatch(postFormData(formData, API_Urls, requiredData));
+  };
+
+  const redirect = () => {
+    history.push("/form");
+    return null;
   };
 
   return (
@@ -61,26 +53,20 @@ const Form = () => {
       <CContainer>
         <CRow>
           <CCol sm="12">
-            {location === "form" ? (
-              <div>
-                <CButton
-                  size="lg"
-                  color="primary"
-                  className={`m-3 px-4`}
-                  onClick={() => history.push("/form/ticketing")}
-                >
-                  ورود به بخش تیکتینگ
-                </CButton>
-              </div>
-            ) : URLs.indexOf(location) !== -1 ? (
-              <CForm action="" method="post" onSubmit={(e) => handleSubmit(e)}>
-                <CFormGroup>
-                  {
-                    <Element
-                      allFields={config[location].fields}
-                      formFields={config[location].form_fields}
-                    />
-                  }
+            {routes.length !== 0 ? (
+              <CForm onSubmit={(e) => handleSubmit(e)}>
+                <CFormGroup className="d-flex flex-wrap justify-content-between">
+                  {routes.map((route, i) =>
+                    config[route] ? (
+                      <Element
+                        key={i}
+                        allFields={config[route].fields}
+                        formFields={config[route].form_fields}
+                        disable={false}
+                      />
+                    ) : // redirect()
+                    null
+                  )}
                 </CFormGroup>
                 <CButton
                   type="submit"
@@ -94,11 +80,8 @@ const Form = () => {
                   انصراف
                 </CButton>
               </CForm>
-            ) : location === "ticket-message" ? (
-              <TicketMessage />
             ) : (
               <div>
-                <CAlert color="info">فرم مورد نظر یافت نشد!</CAlert>
                 <CButton
                   size="lg"
                   color="primary"

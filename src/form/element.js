@@ -6,7 +6,7 @@ import Select from "./select";
 import CheckBox from "./checkBox";
 import Textarea from "./textarea";
 
-const Element = ({ allFields, formFields }) => {
+const Element = ({ allFields, formFields, disable }) => {
   return (
     <>
       {allFields.map((field, index) => {
@@ -19,7 +19,8 @@ const Element = ({ allFields, formFields }) => {
                   name={field.name}
                   type={field.type_attribute}
                   label={field.label}
-                  is_required={field.is_required}
+                  isRequired={field.is_required}
+                  isDisabled={disable}
                 />
               );
 
@@ -57,9 +58,10 @@ const Element = ({ allFields, formFields }) => {
               );
 
             default:
-              break;
+              return null;
           }
         }
+        return null;
       })}
     </>
   );

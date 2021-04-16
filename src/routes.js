@@ -62,7 +62,6 @@ const User = React.lazy(() => import("./views/users/User"));
 
 // Costume Components
 const DynamicForm = React.lazy(() => import("./form"));
-const TicketMessage = React.lazy(() => import("./form/ticketMessage"));
 
 const routes = [
   { path: "/", exact: true, name: "Home" },

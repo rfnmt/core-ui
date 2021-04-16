@@ -12,21 +12,21 @@ const CheckBox = ({ name, label }) => {
   };
 
   return (
-    <div className="d-flex align-items-center mb-4">
-      <CCol tag="label" sm="1" className="col-form-label">
-        {label}
-      </CCol>
-      <CSwitch
-        className="mr-1"
-        color="primary"
-        name={name}
-        onChange={change}
-        defaultChecked
-        value={value}
-      />
-      <br />
-      <br />
-    </div>
+    <CCol xs="12" className="d-flex align-items-center mb-4" >
+        <CCol tag="label" sm="1" className="col-form-label">
+          {label}
+        </CCol>
+        <CSwitch
+          className="mr-1"
+          color="primary"
+          name={name}
+          onChange={change}
+          defaultChecked
+          value={value}
+        />
+        <br />
+        <br />
+    </CCol>
   );
 };
 
